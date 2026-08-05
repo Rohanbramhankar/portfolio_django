@@ -51,6 +51,7 @@
             transition: 0.3s;
             text-decoration: none;
             backdrop-filter: blur(5px);
+            z-index: 100;
         }
 
         .home-btn:hover {
@@ -160,24 +161,47 @@
             color: var(--accent-blue);
         }
 
-        /* Responsiveness */
+        /* Responsive Fixes for All Platforms */
+        @media (max-width: 991px) {
+
+            .contact-info,
+            .contact-form-side {
+                padding: 40px 30px;
+            }
+        }
+
         @media (max-width: 768px) {
             .hero-contact {
                 clip-path: none;
-                padding: 100px 20px 60px;
-            }
-
-            .contact-info {
-                padding: 40px 30px;
-            }
-
-            .contact-form-side {
-                padding: 40px 25px;
+                padding: 120px 20px 60px;
             }
 
             .home-btn {
                 top: 20px;
                 left: 20px;
+            }
+
+            .contact-wrapper {
+                margin-top: -30px;
+                padding-bottom: 50px;
+            }
+
+            .contact-card {
+                border-radius: 15px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-contact h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info {
+                padding: 30px 20px;
+            }
+
+            .contact-form-side {
+                padding: 30px 20px;
             }
         }
     </style>
@@ -187,7 +211,7 @@
 
     <!-- Hero Section -->
     <section class="hero-contact">
-        <div class="container">
+        <div class="container px-4">
             <a href="{% url 'home' %}" class="home-btn shadow">
                 <i class="bi bi-house-door-fill"></i>
             </a>
@@ -200,12 +224,12 @@
 
     <!-- Contact Content -->
     <section class="contact-wrapper">
-        <div class="container">
+        <div class="container px-4">
             <div class="contact-card">
                 <div class="row g-0">
 
-                    <!-- Left Side: Professional Info -->
-                    <div class="col-lg-4 contact-info">
+                    <!-- Left Side: Professional Info (Order changed for mobile) -->
+                    <div class="col-lg-4 contact-info order-2 order-lg-1">
                         <h3 class="fw-bold mb-5">Contact Details</h3>
 
                         <div class="info-box">
@@ -220,7 +244,7 @@
                             <i class="bi bi-envelope-at-fill info-icon"></i>
                             <div>
                                 <h6>Email</h6>
-                                <p>rohanbramhankar@gmail.com</p>
+                                <p class="text-break">rohanbramhankar@gmail.com</p>
                             </div>
                         </div>
 
@@ -243,7 +267,7 @@
                     </div>
 
                     <!-- Right Side: Form -->
-                    <div class="col-lg-8 contact-form-side">
+                    <div class="col-lg-8 contact-form-side order-1 order-lg-2">
                         <form method="POST">
                             {% csrf_token %}
                             <div class="row">
@@ -283,14 +307,14 @@
 
     <!-- Footer -->
     <footer class="footer-section">
-        <div class="container">
+        <div class="container px-4">
             <h5 class="text-white mb-4">Connect With Me</h5>
             <div class="social-links mb-4">
                 <a href="https://github.com/Rohanbramhankar" target="_blank"><i class="bi bi-github"></i></a>
                 <a href="https://linkedin.com/in/rohan-bramhankar-91092a2b6" target="_blank"><i
                         class="bi bi-linkedin"></i></a>
             </div>
-            <p class="mb-0 small opacity-50">
+            <p class="mb-0 small opacity-50 px-3">
                 &copy; 2026 Rohan Bramhankar | AI & Python Developer
             </p>
         </div>
