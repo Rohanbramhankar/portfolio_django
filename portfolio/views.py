@@ -20,7 +20,7 @@ def contact(request):
     return render(request, 'portfolio/contact.html')
 
 def python_projects(request):
-    projects = Project.objects.filter(category='python') 
+    projects = Project.objects.all().order_by('-created_at') 
     return render(request, 'python_projects.html', {'projects': projects})
 
 def data_analytics_projects(request):
