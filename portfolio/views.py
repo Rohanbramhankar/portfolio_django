@@ -1,18 +1,19 @@
 from django.shortcuts import render
-from .models import Project, Profile, Skill, Education
+from .models import Project, Profile, Skill, Education, Experience
 
-from .models import Profile, Skill, Project
 def home(request):
     profile = Profile.objects.first()
     skills = Skill.objects.all()
     projects = Project.objects.all().order_by('-id')[:2] 
     education_list = Education.objects.all().order_by('-id')
+    experiences = Experience.objects.all().order_by('-id')
     
     return render(request, 'index.html', {
         'profile': profile,
         'skills': skills,
         'projects': projects,
-        'education_list': education_list
+        'education_list': education_list,
+        'experiences': experiences
     })
 
 

@@ -31,6 +31,7 @@ class Contact(models.Model):
 
 class Profile(models.Model):
     full_name = models.CharField(max_length=100)
+    hero_description = models.TextField(blank=True, null=True)
     summary = models.TextField(blank=True, null=True)
     resume = models.FileField(upload_to='resumes/')
     profile_image = models.ImageField(upload_to='profile/', blank=True, null=True)
@@ -53,10 +54,23 @@ class Skill(models.Model):
 
 
 class Education(models.Model):
-    degree = models.CharField(max_length=200) # उदा. B.Tech in Computer Science
-    institution = models.CharField(max_length=200) # उदा. GH Raisoni University
-    duration = models.CharField(max_length=100) # उदा. 2023 – 2027
-    description = models.TextField(blank=True, null=True) # उदा. Relevant Coursework: DSA...
+    degree = models.CharField(max_length=200) # B.Tech in Computer Science
+    institution = models.CharField(max_length=200) #  GH Raisoni University
+    duration = models.CharField(max_length=100) #  2023 – 2027
+    description = models.TextField(blank=True, null=True) # Relevant Coursework: DSA...
 
     def __str__(self):
         return self.degree
+
+
+
+class Experience(models.Model):
+    company = models.CharField(max_length=200)
+    role = models.CharField(max_length=200)  # e.g., Python Developer Intern
+    duration = models.CharField(max_length=100)  # e.g., June 2023 – August 2023
+    description = models.TextField(help_text="Describe your responsibilities and achievements")
+    is_internship = models.BooleanField(default=True)  # True for Internship, False for Job
+
+    def __str__(self):
+        return f"{self.role} at {self.company}"
+

@@ -54,11 +54,28 @@
             color: var(--accent-blue) !important;
         }
 
+        /* --- तिरकी लाईन (Hero Slant) सर्व प्लॅटफॉर्मसाठी --- */
         .hero-section {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: white;
-            padding: 140px 0 100px;
-            clip-path: polygon(0 0, 100% 0, 100% 95%, 0% 100%);
+            padding: 140px 0 160px;
+            position: relative;
+            /* ही लाईन डेस्कटॉप आणि मोबाईल दोन्हीवर तिरकी दिसेल */
+            clip-path: polygon(0 0, 100% 0, 100% 88%, 0% 100%);
+            z-index: 1;
+        }
+
+        /* तिरक्या लाईनला हायलाईट करण्यासाठी इफेक्ट */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-blue);
+            box-shadow: 0px -5px 15px var(--accent-blue);
+            z-index: -1;
         }
 
         .profile-image {
@@ -139,8 +156,9 @@
         @media (max-width: 991px) {
             .hero-section {
                 text-align: center;
-                padding: 120px 0 80px;
-                clip-path: none;
+                padding: 120px 0 100px;
+
+                clip-path: polygon(0 0, 100% 0, 100% 94%, 0% 100%);
             }
 
             .profile-image {
@@ -183,8 +201,8 @@
                     <span class="hero-tagline">AI & Python Developer</span>
                     <h1 class="display-3 fw-bold mt-2">{{ profile.full_name|default:"Rohan Bramhankar" }}</h1>
                     <p class="lead mb-4 opacity-75">
-                        {% if profile.summary %}
-                        {{ profile.summary }}
+                        {% if profile.hero_description %}
+                        {{ profile.hero_description }}
                         {% else %}
                         Motivated B.Tech Computer Science student with expertise in <b>Python development</b>, <b>AI
                             Agents (LangGraph)</b>, and <b>Full-stack AI applications</b>. Proficient in building
@@ -233,6 +251,7 @@
                     {% if profile.summary %}
                     {{ profile.summary }}
                     {% else %}
+
                     Seeking an entry-level AI/Python Developer role to solve complex industrial challenges. Expertise in
                     building automated systems, stateful AI workflows using LangGraph, and high-precision data
                     extraction with LLMs like Llama-3.1.
@@ -242,7 +261,7 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills Section (Fixed Logic) -->
     <section id="skills" class="py-5 bg-white">
         <div class="container">
             <h2 class="section-title">Technical Expertise</h2>
@@ -254,11 +273,6 @@
                     {% if skill.category == 'language' %}
                     <div class="skill-badge">{{ skill.name }}</div>
                     {% endif %}
-                    {% empty %}
-                    <div class="skill-badge">Python</div>
-                    <div class="skill-badge">SQL</div>
-                    <div class="skill-badge">JavaScript</div>
-                    <div class="skill-badge">HTML5/CSS3</div>
                     {% endfor %}
                 </div>
 
@@ -269,11 +283,6 @@
                     {% if skill.category == 'framework' %}
                     <div class="skill-badge">{{ skill.name }}</div>
                     {% endif %}
-                    {% empty %}
-                    <div class="skill-badge">Django</div>
-                    <div class="skill-badge">FastAPI</div>
-                    <div class="skill-badge">React</div>
-                    <div class="skill-badge">Pandas/NumPy</div>
                     {% endfor %}
                 </div>
 
@@ -284,11 +293,6 @@
                     {% if skill.category == 'ai_data' %}
                     <div class="skill-badge">{{ skill.name }}</div>
                     {% endif %}
-                    {% empty %}
-                    <div class="skill-badge">LangGraph</div>
-                    <div class="skill-badge">LLM Orchestration</div>
-                    <div class="skill-badge">Machine Learning</div>
-                    <div class="skill-badge">DSA</div>
                     {% endfor %}
                 </div>
 
@@ -299,11 +303,6 @@
                     {% if skill.category == 'tool' %}
                     <div class="skill-badge">{{ skill.name }}</div>
                     {% endif %}
-                    {% empty %}
-                    <div class="skill-badge">VS Code</div>
-                    <div class="skill-badge">GitHub</div>
-                    <div class="skill-badge">Git</div>
-                    <div class="skill-badge">Postman</div>
                     {% endfor %}
                 </div>
             </div>
@@ -388,6 +387,36 @@
                         <p class="mb-1 text-primary fw-semibold">GH Raisoni University, Amravati</p>
                         <p class="text-muted small">2023 – 2027 | Relevant Coursework: DSA, DBMS, ML</p>
                     </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Internship Section -->
+    <section id="experience" class="py-5 bg-white">
+        <div class="container px-4">
+            <h2 class="section-title">Work Experience & Internships</h2>
+            <div class="row justify-content-center g-4 mt-2">
+                {% for exp in experiences %}
+                <div class="col-md-10 col-lg-8">
+                    <div class="p-4 rounded-4 shadow-sm border-start border-info border-4"
+                        style="background-color: #f8fafc;">
+                        <div class="d-flex justify-content-between align-items-start flex-wrap">
+                            <div>
+                                <h5 class="fw-bold mb-1" style="color: #0f172a;">{{ exp.role }}</h5>
+                                <p class="mb-1 text-info fw-semibold">{{ exp.company }}</p>
+                            </div>
+                            <span class="badge bg-light text-dark border mb-2">{{ exp.duration }}</span>
+                        </div>
+                        <div class="text-muted small mt-2">
+                            {{ exp.description|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="text-center">
+                    <p class="text-muted">No experience added yet.</p>
                 </div>
                 {% endfor %}
             </div>
