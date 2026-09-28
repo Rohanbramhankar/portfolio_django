@@ -74,3 +74,32 @@ class Experience(models.Model):
     def __str__(self):
         return f"{self.role} at {self.company}"
 
+
+class Service(models.Model):
+    ICON_CHOICES = [
+        ('fa-code', 'Code'),
+        ('fa-server', 'Backend / Server'),
+        ('fa-globe', 'Web'),
+        ('fa-mobile-screen', 'Mobile'),
+        ('fa-chart-column', 'Data / Charts'),
+        ('fa-database', 'Database'),
+        ('fa-microchip', 'AI / Chip'),
+        ('fa-robot', 'Robot / Agents'),
+        ('fa-gears', 'Automation'),
+        ('fa-cloud', 'Cloud'),
+        ('fa-shield-halved', 'Security'),
+        ('fa-palette', 'Design'),
+    ]
+    title = models.CharField(max_length=100)
+    description = models.TextField(help_text="1-2 short lines")
+    icon = models.CharField(max_length=40, choices=ICON_CHOICES, default='fa-code')
+    order = models.PositiveIntegerField(default=0, help_text="Lower numbers appear first")
+    is_visible = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+
+    def __str__(self):
+        return self.title
+
+
