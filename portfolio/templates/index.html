@@ -12,6 +12,7 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Sora:wght@600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/assistant.css' %}">
     <style>
         :root {
             --bg: #040c08;
@@ -1056,9 +1057,13 @@
                             <h3>{{ project.title }}</h3>
                             <div class="tech">{{ project.technology }}</div>
                             <p>{{ project.description|truncatewords:16 }}</p>
+                            {% if project.demo_url %}
+                            <a class="go" href="{{ project.demo_url }}" target="_blank" rel="noopener">Live Demo</a>
+                            {% endif %}
                             {% if project.link %}
-                            <a class="go" href="{{ project.link }}" target="_blank" rel="noopener">View Project</a>
-                            {% else %}
+                            <a class="go" href="{{ project.link }}" target="_blank" rel="noopener">View Code</a>
+                            {% endif %}
+                            {% if not project.demo_url and not project.link %}
                             <a class="go" href="{% url 'python_projects' %}">View Project</a>
                             {% endif %}
                         </div>
@@ -1196,6 +1201,35 @@
         </div>
     </footer>
 
+    <section class="assistant" aria-label="Portfolio AI assistant">
+        <div class="assistant-panel" id="assistantPanel" aria-labelledby="assistantTitle" hidden>
+            <div class="assistant-header">
+                <div>
+                    <h2 id="assistantTitle">Portfolio Assistant</h2>
+                    <p>Ask me about my skills and projects</p>
+                </div>
+                <button class="assistant-close" id="assistantClose" type="button" aria-label="Close assistant">
+                    <i class="fas fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+            <div class="assistant-messages" id="assistantMessages" aria-live="polite" aria-relevant="additions">
+                <p class="assistant-message assistant-message--bot">Hi! Ask me anything about this portfolio.</p>
+            </div>
+            <form class="assistant-form" id="assistantForm" action="{% url 'assistant_chat' %}">
+                {% csrf_token %}
+                <label class="sr-only" for="assistantInput">Your message</label>
+                <input id="assistantInput" name="message" type="text" maxlength="1000"
+                    placeholder="Ask about skills or projects..." autocomplete="off" required>
+                <button type="submit" aria-label="Send message"><i class="fas fa-paper-plane"
+                        aria-hidden="true"></i></button>
+            </form>
+        </div>
+        <button class="assistant-launcher" id="assistantLauncher" type="button" aria-expanded="false"
+            aria-controls="assistantPanel">
+            <i class="fas fa-robot" aria-hidden="true"></i><span>Ask AI</span>
+        </button>
+    </section>
+
     <script>
         var b = document.getElementById("menuBtn"), n = document.getElementById("nav");
         b.addEventListener("click", function () { var o = n.classList.toggle("open"); b.setAttribute("aria-expanded", o) });
@@ -1205,6 +1239,17 @@
             var name = el.getAttribute("data-n").toLowerCase();
             for (var i = 0; i < icons.length; i++) { if (name.indexOf(icons[i][0]) > -1) { el.querySelector("i").className = icons[i][1]; break } }
         });
+    </script>
+    <script src="{% static 'js/assistant.js' %}" defer></script>
+<script>
+        // Keep-alive ping to prevent the (Render free tier) service from sleeping
+        // while a visitor has the page open. Also configure an external uptime
+        // monitor (e.g. UptimeRobot) for 24/7 coverage.
+        (function () {
+            function ping() { fetch('/health/', { cache: 'no-store' }).catch(function () {}); }
+            ping();
+            setInterval(ping, 60000);
+        })();
     </script>
 </body>
 

@@ -402,6 +402,12 @@
                             {% if project.image %}
                             <a class="btn" href="{{ project.image.url }}" target="_blank" rel="noopener">View</a>
                             {% endif %}
+                            {% if project.demo_url %}
+                            <a class="btn" href="{{ project.demo_url }}" target="_blank" rel="noopener"
+                                aria-label="Live Demo">
+                                <i class="fas fa-external-link-alt"></i> Live Demo
+                            </a>
+                            {% endif %}
                             {% if project.link %}
                             <a class="btn line" href="{{ project.link }}" target="_blank" rel="noopener"
                                 aria-label="GitHub">

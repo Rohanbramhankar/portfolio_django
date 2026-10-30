@@ -10,3 +10,8 @@ venv/
 
 # Media & Static
 media/
+# Collected static
+staticfiles/
+
+# Keep env template
+!.env.example
